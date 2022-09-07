@@ -34,7 +34,7 @@ Netflix平台上，臺灣的好評佳作超過20%，然而熱門作品卻不到5
 <img src="https://github.com/Remi-KC/Solving_a_Business_Challenge/blob/main/Plot/add_M.png" width="850"><br>
 <br>
 
-## 三、	效益
+## 三、 預估效益
 <img src="https://github.com/Remi-KC/Solving_a_Business_Challenge/blob/main/Plot/result.png" width="880"><br>
 <br>
 
