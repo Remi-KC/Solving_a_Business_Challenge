@@ -77,9 +77,9 @@ pop_percent.sort_values(by=["type", "percent"], ascending=[True, False], inplace
 movie = pop_percent[pop_percent["type"]=="Movie"].reset_index(drop=True)
 TV = pop_percent[pop_percent["type"]=="TV Show"].reset_index(drop=True)
 
-plt.figure(figsize = (14, 16), dpi=200)
+plt.figure(figsize = (25, 8), dpi=200)
 
-ax1 = plt.subplot(211)
+ax1 = plt.subplot(121)
 sns.barplot(x="all", y="listed_in", data=movie,
             label="非熱門", color="#221F1F")
 
@@ -92,13 +92,13 @@ for i in range(len(movie)):
                     fontsize=12, color="#F5F5F1",
                     va="center", ha="center")
 
-plt.title("Netflix_Movie 各類型影片中 熱門影片比例", fontsize=21, loc="left")
+plt.title("Netflix_Movie 各類型影片中 熱門影片比例", fontsize=18, loc="left")
 plt.title("熱門：評分>7.3| 評分人數>3000             ", fontsize=12, loc="right")
 ax1.legend(ncol=2, loc="lower right", shadow=True)
 ax1.set(ylabel="", xlabel="")
 plt.xticks(np.arange(0, 101, 10))
     
-ax2 = plt.subplot(212)
+ax2 = plt.subplot(122)
 sns.barplot(x="all", y="listed_in", data=TV,
             label="非熱門", color="#221F1F")
 
@@ -111,17 +111,17 @@ for i in range(len(TV)):
                     fontsize=12, color="#F5F5F1",
                     va="center", ha="center")
 
-plt.title("Netflix_TV Show 各類型影片中 熱門影片比例", fontsize=21, loc="left")
+plt.title("Netflix_TV Show 各類型影片中 熱門影片比例", fontsize=18, loc="left")
 plt.title("熱門：評分>7.3| 評分人數>3000             ", fontsize=12, loc="right")
 ax2.legend(ncol=2, loc="lower right", shadow=True)
 ax2.set(ylabel="", xlabel="")
 plt.xticks(np.arange(0, 101, 10))
 
 sns.despine()
-plt.subplots_adjust(wspace=0.18)
+plt.subplots_adjust(wspace=0.19)
 
 # 存檔
-plt.savefig(path2+"popular_genre.png", bbox_inches="tight")
+plt.savefig(path2+"popular_genre_wide.png", bbox_inches="tight")
 plt.show()
 
 #%% 臺灣 影片類型分佈（/電影電視/劇情喜劇愛情恐怖)
@@ -249,7 +249,7 @@ max     3.666667
 import matplotlib.gridspec as gridspec
 # 設定上下方兩個子圖比例
 gs = gridspec.GridSpec(2, 1, height_ratios=[13, 1])
-fig = plt.figure(figsize = (10, 4), dpi=200)
+fig = plt.figure(figsize = (12.5, 4), dpi=200)
 fig.subplots_adjust(hspace=0.13)
 ax1 = fig.add_subplot(gs[0])
 ax2 = fig.add_subplot(gs[1])
@@ -297,7 +297,7 @@ ax1.plot([0],[0], transform=ax1.transAxes, **kwargs)
 ax2.plot([0],[1], transform=ax2.transAxes, **kwargs)
 
 # 圖表標籤設定
-fig.suptitle("   Netflix 各月份平均上架影片數量 |點虛線為平均值上下一個標準差區間", fontsize=18, y=0.98)  
+fig.suptitle("   Netflix 各月份平均上架影片數量 |  點虛線為平均值上下一個標準差區間", fontsize=18, y=0.98)  
 ax2.set_xlabel("月份", fontsize=18, labelpad=8)
 ax1.set_ylabel("影\n片\n數\n量", rotation=0, fontsize=18, labelpad=15)
 ax1.set_xlabel("")
@@ -308,7 +308,7 @@ ax1.grid()
 ax2.grid()
 
 # 存檔
-plt.savefig(path2+"add_M.png", bbox_inches="tight")
+plt.savefig(path2+"add_M_.png", bbox_inches="tight")
 plt.show()
 
 #%% 效益評估1
@@ -322,17 +322,27 @@ print("假如電視作品中，動作、懸疑、科幻片的數量增加10％�
 print("臺灣平均每年上架%d部影片" % add_m_mean_TW["mean"].sum())
 # 臺灣平均每年上架27部影片
 
+
+# 二月平台上架平均數量
 feb_all = add_m_mean[(add_m_mean["loc"]=="world")&(add_m_mean["f_date_add_m"]=="Feb")]["mean"]
+# 二月台灣上架平均數量
 feb_tw_ori = add_m_mean_TW[add_m_mean["f_date_add_m"]=="Feb"]["mean"]
+# 臺灣每年上架平均數量
 feb_tw_new = round(add_m_mean_TW["mean"].sum(), 0)
+# 原本的台灣影片平均能見度
+mean = (np.array(add_m_mean[add_m_mean["loc"]=="TW"]["mean"])/np.array(add_m_mean[add_m_mean["loc"]=="world"]["mean"])*100).mean()
+# 集中二月上架的能見度
+new = feb_tw_new/(feb_all-feb_tw_ori+feb_tw_new)*100
+
 
 print("原本二月上架影片的能見度為：%.2f%%" % (feb_tw_ori/feb_all*100))
-print("集中二月上架的話，影片能見度為：%.2f%%" % (feb_tw_new/feb_all*100))
-print("能見度提高：%.2f%%" % (feb_tw_new/feb_all*100-feb_tw_ori/feb_all*100))
-
+print("集中二月上架的話，影片能見度為：%.2f%%" % new)
+print("能見度提高：%.2f%%" % (new - mean))
 # 原本二月上架影片的能見度為：1.85%
-# 集中二月上架的話，影片能見度為：25.00%
-# 能見度提高:23.15%
+# 集中二月上架的話，影片能見度為：20.30%
+# 能見度提高：18.65%
+
+
 
 
 
